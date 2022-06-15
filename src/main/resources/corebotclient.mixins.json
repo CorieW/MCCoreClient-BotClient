@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "coriew.client.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+  ],
+  "client": [
+    "MinecraftClientMixin",
+    "WorldChunkMixin",
+    "TitleScreenMixin",
+    "ChatHudAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
