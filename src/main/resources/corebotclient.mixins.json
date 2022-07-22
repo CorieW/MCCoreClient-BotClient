@@ -9,7 +9,8 @@
     "MinecraftClientMixin",
     "WorldChunkMixin",
     "TitleScreenMixin",
-    "ChatHudAccessor"
+    "ChatHudAccessor",
+    "ClientPlayNetworkHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

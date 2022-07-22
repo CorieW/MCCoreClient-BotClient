@@ -1,21 +1,14 @@
 package coriew.client;
 
-import coriew.client.events.game.TickEvent;
-import coriew.client.events.world.ChunkLoadEvent;
 import coriew.client.systems.Systems;
-import coriew.client.systems.networking.BotWebSocketClient;
 import meteordevelopment.orbit.EventBus;
-import meteordevelopment.orbit.EventHandler;
 import meteordevelopment.orbit.IEventBus;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.world.chunk.Chunk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.invoke.MethodHandles;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 public class CoreBotClient implements ClientModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("corebotclient");

@@ -6,7 +6,9 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import coriew.client.CoreBotClient;
 import coriew.client.systems.networking.messengers.Messengers;
-import coriew.client.systems.networking.receivers.Receivers;
+import coriew.client.systems.networking.Receiver;
+import coriew.client.utils.URLHelper;
+import net.minecraft.client.MinecraftClient;
 import org.apache.http.*;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
@@ -31,27 +33,26 @@ import java.util.Optional;
 public class Networking {
     public static Networking INSTANCE;
 
-    private BotWebSocketClient wsClient;
     private Messengers messengers;
-    private Receivers receivers;
+    private Receiver receiver;
 
     public Networking()
     {
         INSTANCE = this;
         messengers = new Messengers();
-        receivers = new Receivers();
+        receiver = new Receiver();
     }
 
-    public void SendLoginRequest(String username, String password) throws Exception
+    public void SendLoginRequest(String email, String password) throws Exception
     {
         String sessionToken = "Test";
 
         HttpClientContext context = HttpClientContext.create();
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             // Create POST login request with data as parameters
-            HttpPost postReq = new HttpPost("http://localhost:3000/api/login");
+            HttpPost postReq = new HttpPost(URLHelper.GetAPIAddress() + "/login");
             ArrayList<NameValuePair> params = new ArrayList<NameValuePair>(2);
-            params.add(new BasicNameValuePair("email", username));
+            params.add(new BasicNameValuePair("email", email));
             params.add(new BasicNameValuePair("password", password));
             postReq.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
 
@@ -70,14 +71,14 @@ public class Networking {
 
                 // Response
                 String message = map.get("message");
-                String error = map.get("error");
 
                 // Throw errors if anything goes wrong or login attempt is unsuccessful
                 if (entity == null)
                 {
                     throw new Exception("Something went wrong!");
                 }
-                if (error != null)
+                // If the HTTP response status code isn't 200 (OK), show error
+                if (response.getStatusLine().getStatusCode() != 200)
                 {
                     throw new Exception(message);
                 }
@@ -96,11 +97,11 @@ public class Networking {
                 headers.put("Cookie", "sessionToken=" + sessionToken);
 
                 // Create the websocket client
-                BotWebSocketClient webSocketClient = new BotWebSocketClient(
-                        new URI("ws://localhost:8080/socket?clientType=bot"),
+                WebSocketHandler webSocketClient = new WebSocketHandler(new WebSocketHandler.BotWebSocketClient(
+                        new URI(URLHelper.GetWebSocketAddress(true)),
                         headers,
-                        receivers
-                );
+                        receiver
+                ));
 
                 // Connect the websocket client to the websocket server
                 webSocketClient.connect();

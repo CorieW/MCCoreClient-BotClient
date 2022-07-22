@@ -11,18 +11,21 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
+import javax.annotation.Nullable;
+
 public class BotLoginScreen extends Screen {
     private static final Text ENTER_EMAIL_TEXT = new TranslatableText("Enter email");
     private static final Text ENTER_PASSWORD_TEXT = new TranslatableText("Enter password");
-    private Text ERROR_MESSAGE_TEXT = new TranslatableText("");
+    private Text ERROR_MESSAGE_TEXT;
     private ButtonWidget loginButton;
     private TextFieldWidget emailField;
     private PasswordFieldWidget passwordField;
     private final Screen parent;
 
-    public BotLoginScreen(Screen parent) {
+    public BotLoginScreen(Screen parent, @Nullable TranslatableText error) {
         super(new TranslatableText("MCCoreBot Login"));
         this.parent = parent;
+        this.ERROR_MESSAGE_TEXT = error != null ? error :  new TranslatableText("");
     }
 
     public void tick() {

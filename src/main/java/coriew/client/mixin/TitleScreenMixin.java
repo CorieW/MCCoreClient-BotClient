@@ -24,7 +24,7 @@ public class TitleScreenMixin extends Screen {
             Utils.firstTimeTitleScreen = false;
 
             // Show login
-            CoreBotClient.MC.setScreen(new BotLoginScreen(new TitleScreen()));
+            CoreBotClient.MC.setScreen(new BotLoginScreen(new TitleScreen(), null));
         }
     }
 }

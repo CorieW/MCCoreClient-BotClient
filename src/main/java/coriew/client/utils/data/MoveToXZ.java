@@ -1,4 +1,4 @@
-package coriew.client.systems.networking.data;
+package coriew.client.utils.data;
 
 public class MoveToXZ {
     public int x;

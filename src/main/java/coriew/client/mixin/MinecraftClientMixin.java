@@ -2,7 +2,7 @@ package coriew.client.mixin;
 
 import coriew.client.CoreBotClient;
 import coriew.client.events.game.TickEvent;
-import coriew.client.events.server.DisconnectFromServerEvent;
+import coriew.client.events.server.GameLeftEvent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.world.ClientWorld;
@@ -35,7 +35,7 @@ public abstract class MinecraftClientMixin {
     @Inject(method = "disconnect(Lnet/minecraft/client/gui/screen/Screen;)V", at = @At("HEAD"))
     private void onDisconnect(Screen screen, CallbackInfo info) {
         if (world != null) {
-            CoreBotClient.EVENT_BUS.post(DisconnectFromServerEvent.get());
+            CoreBotClient.EVENT_BUS.post(GameLeftEvent.get());
         }
     }
 }
